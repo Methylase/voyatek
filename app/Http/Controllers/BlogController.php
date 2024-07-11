@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Blog;
-
+use App\Http\Resources\BlogResource;
+use Validator;
 class BlogController extends Controller
 {
     /**
@@ -34,12 +35,13 @@ class BlogController extends Controller
         $image_url = Storage::url($image_path);
         $blog= new Blog;
         $blog->blog_title = $request->input('blog_title');
-        $blog->blog_description = $request->input('blog_description');
+        $blog->blog_content = $request->input('blog_description');
         $blog->image_url = $image_url;
         $blog->save();
         return response()->json([$blog, Response::HTTP_CREATED]);   
     }
 
+    
     /**
      * show a particular blog
      */
@@ -55,7 +57,7 @@ class BlogController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'blog_image' =>'required|string',
+             'blog_image' =>'required|mimes:jpeg,png,jpg,gif|max:2048',
             'blog_title' =>'required|string',
             'blog_description' =>'required|string',
         ]);
@@ -66,7 +68,7 @@ class BlogController extends Controller
         $blog= Blog::findOrFail($id);
 
         $blog->blog_title = $request->input('blog_title');
-        $blog->blog_description = $request->input('blog_description');
+        $blog->blog_content = $request->input('blog_description');
         $blog->image_url = $image_url;
         $blog->save();
         return response()->json([$blog]);

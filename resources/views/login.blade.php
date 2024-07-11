@@ -1,59 +1,162 @@
-@extends('layouts.container')
-  @section('content')
-    <div class="login-container">
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <meta name="description" content="">
+  <meta name="csrf-token" content="{{csrf_token()}}">   
+  <meta name="author" content="">
+
+  <title>Dashboard - {{$title}}</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="{{asset('dash-template/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link rel="icon" type="image/png" href="{{asset('dash-template/img/desktop logo.png')}}"  sizes ="25x25"> 
+  <!-- Custom styles for this template-->
+  <link href="{{asset('jqueryTimePicker/jquery.timepicker.min.css')}}" rel="stylesheet"> 
+  <link href="{{asset('dash-template/css/jquery.dataTables.min.css')}}" rel="stylesheet"> 
+  <link href="{{asset('dash-template/css/sb-admin-2.min.css')}}" rel="stylesheet">
+  <link href="{{asset('dash-template/css/bootstrap-multiselect.min.css')}}" rel="stylesheet">
+  <script src="{{asset('jqueryTimePicker/jquery.timepicker.min.js')}}"></script> 
+  <script src="{{asset('dash-template/vendor/jquery/jquery.min.js')}}"></script> 
+
+ 
+  <style>
+  
+  .login-container, .signup-container{
+     margin-top: 7rem;
+     border: 1px solid #d2d2d2;
+     text-align:center !important;
+
+   }  
+
+
+   @media (max-width: 991px) {
+
+     .login-container, .signup-container{
+       width: 400px;
+       margin-left:20%;
+       margin-right:20%;
+       padding: 25px;
+     }  
+     form{
+       width:100%;
+     }
+   }
+
+  
+   @media (min-width: 992px) {
+     .login-container, .signup-container{
+       padding: 25px;
+       width: 400px;
+     } 
+     
+     form{
+       width:350px;
+      
+     }
+   }
+
+ @media (min-width: 576px) {
+   .pl-sm-5, .px-sm-5 {
+     padding-left: 0 !important;
+   }
+   .pr-sm-5, .px-sm-5 {
+     padding-right: 0 !important;
+   }
+ }
+
+
+
+   @media (max-width: 575px) {
+     .login-container, .signup-container{
+       width: 100%;
+       margin-left: 0;
+       margin-right: 0;
+       padding: 25px;
+     }
+
+     form{
+       width:100%;
+     }
+
+     .container-fluid {
+       padding-left: 0.2rem;
+       padding-right: 0.2rem;
+     }
+   }      
+    
+ </style>  
+</head>
+
+<body id="page-top">
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper d-flex align-items-center auth px-0">
+        <div class="row w-100 mx-0">
+          <div class="col-lg-4 mx-auto">
+            <div class="auth-form-light text-center py-5 px-4 px-sm-5">
+            <div class="login-container">
       <div class="brand-logo text-center">
-        <img src="{{asset('dash-template/img/desktop logo.png')}}" class="my-2" width="65%" height="100%">
       </div>
-      <h4 class="text-center">Great! let's get started</h4>
-      <h6 class="font-weight-light text-center">Sign in to continue.</h6>
-      @if(session()->has('failureMessage'))
-          <div class="col-md-12 col-sm-12 alert
-          alert-danger alert-dismissable text-center" style="margin-top:20px">
-          <a href='' class='close' data-dismiss='alert' aria-label='close'> &times</a>
-          <strong>
-              Danger
-          </strong>
-          {{session('failureMessage')}}
-          </div>
-      @endif
+      <h4 class="text-center">Post Blog</h4>
+
       <form method="POST" action="{{route('login')}}" class="pt-3">
         {{csrf_field()}}
-        <div class="form-group">
-          <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
-          <span class="text-danger">
-            @if($errors->has('email'))
-              {{ $email= $errors->first('email')}}
-            @else
-              {{$email=''}}
-            @endif
-          </span>
+        <form class="form" action="" enctype="multipart/form-data" method="POST">
+        <div class="form-group">                       
+            <input type="file" id="blog_image" name="file" class="form-control">
+            <label for="blog-image" class="control-label"> Select blog image</label>                        
         </div>
         <div class="form-group">
-          <input type="password" name="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
-          <span class="text-danger">
-            @if($errors->has('password'))
-              {{ $password=$errors->first('password')}}
-            @else
-              {{$password=''}}
-            @endif
-          </span>
+          <label for="blog-title" class="control-label"> Blog Title</label>
+          <input type="text" name="blog_title" class="form-control form-control-lg" placeholder="Blog title">
         </div>
-        <div class="mt-3">
-          <input  type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" value="SIGN IN">
+        <div class="form-group">
+        <label for="blog-description" class="control-label"> Blog Description</label>
+          <textarea  name="blog_description" class="form-control form-control-lg" placeholder="Blog description"></textarea>
+
         </div>
-        <div class="my-2 d-flex justify-content-between align-items-center">
-          <div class="form-check form-check-success">
-            <label class="form-check-label text-muted">
-              <input type="checkbox" class="form-check-input">
-              Keep me signed in
-            </label>
-          </div>
-          <a href="{{route('forgot-password')}}" class="auth-link text-primary">Forgot password?</a>
-        </div>
-       <!-- <div class="text-center mt-4 font-weight-light">
-          Don't have an account? <a href="{{route('signup')}}" class="text-primary">Create</a>
-        </div>-->
       </form>
     </div>
+          
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+    <!-- Bootstrap core JavaScript-->
+  <script src="{{asset('dash-template/vendor/jquery/jquery.min.js')}}"></script>
+  <script src="{{asset('dash-template/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
-@endsection
+  <!-- Core plugin JavaScript-->
+  <script src="{{asset('dash-template/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{{asset('dash-template/js/sb-admin-2.min.js')}}"></script>
+   <script> window.onload=dateTime();</script>    
+  <!-- Page level plugins -->
+  <script src="{{asset('dash-template/vendor/chart.js/Chart.min.js')}}"></script>
+  <script type="text/javascript" src="{{asset('jqueryTimePicker/jquery.timepicker.min.js')}}"></script>
+  <!-- Page level custom scripts -->
+  <script src="{{asset('dash-template/js/demo/chart-area-demo.js')}}"></script>
+  <script src="{{asset('dash-template/js/demo/chart-pie-demo.js')}}"></script>
+  <script src="{{asset('dash-template/js/jquery.dataTables.min.js')}}"></script> 
+  <script src="{{asset('dash-template/js/bootstrap-multiselect.min.js')}}"></script> 
+    <form id='logout-form' action="{{url('/deschool/logout')}}"
+    method="POST" style='display:none'>
+        {{csrf_field()}}
+    </form>
+</body>
+
+</html>
+

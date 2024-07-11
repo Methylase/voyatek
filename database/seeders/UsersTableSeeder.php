@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
         'email' => 'bayo@yahoo.com',
         'email_verified_at' => now(),
         'password' => bcrypt('smoothless'),
-        'remember_token' =>Str::random(10),
+        'api_token' => 'vg@123',
        ]);
     }
 }

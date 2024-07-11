@@ -3,12 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Models\Post;
-use App\Models\User;
-
-use App\Policies\PostPolicy;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Pagination\Paginator;
+
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -16,7 +14,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+
+        
     }
 
     /**
