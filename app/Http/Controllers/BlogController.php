@@ -45,8 +45,10 @@ class BlogController extends Controller
     /**
      * show a particular blog
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
+        $id =$request->id;
+ 
         $blog= Blog::findOrFail($id);
         return response()->json([$blog]);     
     }
@@ -54,17 +56,19 @@ class BlogController extends Controller
     /**
      * update a particular blog
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
         $request->validate([
              'blog_image' =>'required|mimes:jpeg,png,jpg,gif|max:2048',
             'blog_title' =>'required|string',
             'blog_description' =>'required|string',
+            'blog_id'=>'required|string',
         ]);
 
+        
         $image_path = $request->file('blog_image')->store('blog','public');
         $image_url = Storage::url($image_path);
-
+        $id =$request->input('blog_id');
         $blog= Blog::findOrFail($id);
 
         $blog->blog_title = $request->input('blog_title');
@@ -77,8 +81,9 @@ class BlogController extends Controller
     /**
      * delete a particular blog
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
+        $id =$request->id;
         $blog= Blog::findOrFail($id);
         $blog->delete();
         return response()->json([null, HTTP_NO_CONTENT]);    
