@@ -9,5 +9,5 @@ Route::group(['middleware'=>'token.auth'], function(){
 Route::resource('blogs', BlogController::class);
 Route::resource('blogs.posts', PostController::class)->shallow();
 Route::post('post/{post}/like', [PostLikeController::class, 'like']);
-Route::post('post/{post}/comment', [PostCommentController::class, 'comment']);
+Route::post('post/{post}/comment', [PostCommentController::class, 'store']);
 });

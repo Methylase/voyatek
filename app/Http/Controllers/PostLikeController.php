@@ -13,8 +13,17 @@ class PostLikeController extends Controller
      */
     public function like(Request $request, Post $post)
     {
-        $post->likes()->attach(auth->id());
-        return response()->json(['message'=> 'Post liked is successful']); 
+    
+        $like = $post->likes()->firstOrCreate([
+            'user_id' => $request->auth_user
+        ]);
+        
+        $post= Post::where('id',$like->post_id)->first(); 
+        return response()->json([
+            'message'=> $post->post_title.' successfully liked',
+            'status'=>'success',
+            'code'=>200
+        ],200); 
     }
 
 }

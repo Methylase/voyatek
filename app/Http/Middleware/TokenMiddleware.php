@@ -25,7 +25,7 @@ class TokenMiddleware
         if( !$user){
             return response()->json(['error'=>'Unauthorized. token not valid'], 401);
         }
-         $request->merge(["auth_user" =>$user]);
+         $request->merge(["auth_user" =>$user->id]);
         return $next($request);
     }
 }
